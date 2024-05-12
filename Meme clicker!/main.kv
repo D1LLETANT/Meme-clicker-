@@ -1,0 +1,245 @@
+#:set main_color 0,0,0,1 #255/255,255/255,191/255,1
+#:set accent_color 0/255, 255/255, 151/255, 1
+#:set color_a  0/255, 255/255, 151/255, 1
+#:set color_b  20/255, 255/255, 151/255, 1  
+#:set color_c  0/255, 255/255, 151/255, 1
+#:set color_d  73/255, 73/255, 73/255, 1
+#:set color_e  0/255, 255/255, 151/255, 1
+#:set color_f  37/255, 37/255, 37/255, 1
+
+<Screen, ScreenManager>
+    canvas.before:
+        Color:
+            rgba: color_f
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<ButtonGame@Button>
+    canvas.before:
+        Color:
+            rgba:color_d if self.state == 'normal' else color_c
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [0,5,0,5]
+        Color:
+            rgba: accent_color if self.state == 'normal' else color_d
+        BoxShadow:
+            size: self.size
+            pos: self.pos
+            offset: 0,-2
+            inset: True
+            border_radius: 0,5,0,5
+            blur_radius: 5 if self.state == 'normal' else 10
+    size_hint_y: 0.5
+    font_size: '20sp'
+    color: color_a if self.state == 'normal' else color_f
+    background_color: 0,0,0,0
+    background_normal: ''
+    background_down: ''
+    font_name: 'assets/BebasNeue-Regular.ttf'
+
+<ButtonMenu@Button>
+    canvas.before:
+        Color:
+            rgba:color_d if self.state == 'normal' else color_c
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [0,50,0,50]
+        Color:
+            rgba: accent_color if self.state == 'normal' else color_d
+        BoxShadow:
+            size: self.size
+            pos: self.pos
+            offset: 0,-5
+            inset: True
+            border_radius: 0,50,0,50
+            blur_radius: 10 if self.state == 'normal' else 20
+    size_hint_y: 0.25
+    font_size: '30sp'
+    color: color_a
+    background_color: 0,0,0,0
+    background_normal: ''
+    background_down: ''
+    font_name: 'assets/BebasNeue-Regular.ttf'
+
+
+
+<MenuScreen>:
+    id: menu
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '20dp'
+
+        Label:
+            id: title_game
+            text: "Meme clicker!"
+            font_name: 'assets/HARLOWSI.ttf'
+            font_size: '50sp'
+            color: 0/255, 255/255, 151/255, 1
+            size_hint_y: 0.8
+
+        Image:
+            source: 'assets/images/1.gif'
+            size_hint_y: 1
+            allow_stretch: True
+
+        Widget:
+            size_hint_y: 0.05
+        ButtonMenu:
+            text: 'Play'
+            # on_press: root.play_sound()
+            on_release: root.manager.current = 'game'
+
+        ButtonMenu:
+            text: 'Settings'
+            on_release: root.manager.current = 'settings'
+        ButtonMenu:
+            text: 'Leaderboard'
+            on_release: root.manager.current = 'leader'
+
+<SettingsScreen>:
+    id: settings
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '20dp'
+
+        Label:
+            id: title_settings
+            text: "Settings"
+            font_name: 'assets/BebasNeue-Regular.ttf'
+            font_size: '50sp'
+            color: 0/255, 255/255, 151/255, 1
+            size_hint_y: 0.8
+
+        Image:
+            source: 'assets/images/Settings.png'
+            size_hint_y: 2
+            allow_stretch: True
+
+        Widget:
+            size_hint_y: 0.02
+            
+        ButtonMenu:
+            text: 'menu'
+            on_release: root.manager.current = 'menu'
+
+<LeaderScreen>:
+    id: leader
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '20dp'
+
+        Image:
+            source: 'assets/images/Leaderboard.png'
+            size_hint_y: 2
+            allow_stretch: True
+
+        Widget:
+            size_hint_y: 0.02
+            
+        ButtonMenu:
+            text: 'menu'
+            on_release: root.manager.current = 'menu'
+
+<GLeaderScreen>:
+    id: gleader
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '20dp'
+
+        Image:
+            source: 'assets/images/Leaderboard.png'
+            size_hint_y: 2
+            allow_stretch: True
+
+        Widget:
+            size_hint_y: 0.02
+            
+        ButtonMenu:
+            text: 'back to game'
+            on_release: root.manager.current = 'game'
+
+<ShopScreen>:
+    id: shop
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '20dp'
+
+        Image:
+            source: 'assets/images/Leaderboard.png'
+            size_hint_y: 2
+            allow_stretch: True
+
+        Widget:
+            size_hint_y: 0.02
+            
+        ButtonMenu:
+            text: 'back to game'
+            on_release: root.manager.current = 'game'
+
+<GameScreen>:
+    id: game
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.1
+            Label:
+                text: "score: "+ str(int(root.points))
+                font_name: 'assets/BebasNeue-Regular.ttf'
+                font_size: '40sp'
+                color: color_b
+            # Label:
+            #     text: "money: "+ str(int(root.points))
+            #     font_name: 'assets/BebasNeue-Regular.ttf'
+            #     font_size: '40sp'
+            #     color: orange
+        FloatLayout:
+            size_hint_y: 0.8
+            Meme:
+                id: meme
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: 0.1
+            padding: '10dp'
+            spacing: '10dp'
+            BoxLayout:
+
+                ButtonGame:
+                    text: 'menu'
+                    on_release: 
+                        root.manager.current = 'menu'
+                        app.save_prog()
+                Widget:
+                    size_hint_y: 0.10
+                    spacing: '20dp'
+                ButtonGame:
+                    text: 'leader'
+                    on_release: 
+                        root.manager.current = 'gleader'
+                        app.save_prog()
+                Widget:
+                    size_hint_y: 0.05
+                    spacing: '20dp'
+                ButtonGame:
+                    text: 'shop'
+                    # on_release: 
+                    #     root.manager.current = 'shop'
+                    #     app.save_prog()
+
+<Meme>
+    allow_stretch: True
+    size_hint: None,None
+    size: '200dp', '200dp'
+    center: self.parent.center
+    opacity: 0
+    
+
